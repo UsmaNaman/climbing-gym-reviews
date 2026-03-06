@@ -1,9 +1,9 @@
 import { GymType } from '@/lib/queries'
 
 const styles: Record<GymType, string> = {
-  bouldering: 'bg-orange-100 text-orange-700',
-  lead: 'bg-blue-100 text-blue-700',
-  both: 'bg-green-100 text-green-700',
+  bouldering: 'bg-orange-500/20 text-orange-400 border border-orange-500/30',
+  lead: 'bg-blue-500/20 text-blue-400 border border-blue-500/30',
+  both: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30',
 }
 
 const labels: Record<GymType, string> = {
@@ -14,7 +14,7 @@ const labels: Record<GymType, string> = {
 
 export default function GymTypeBadge({ type }: { type: GymType }) {
   return (
-    <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-medium ${styles[type]}`}>
+    <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold tracking-widest uppercase ${styles[type]}`}>
       {labels[type]}
     </span>
   )

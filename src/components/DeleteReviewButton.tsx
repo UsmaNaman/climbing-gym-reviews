@@ -14,7 +14,7 @@ export default function DeleteReviewButton({ reviewId, gymId }: { reviewId: numb
       <input type="hidden" name="gymId" value={gymId} />
       <button
         type="submit"
-        className="text-sm text-red-500 hover:text-red-700 font-medium"
+        className="text-xs font-bold tracking-widest uppercase text-zinc-300 hover:text-red-500 transition-colors"
       >
         Delete
       </button>

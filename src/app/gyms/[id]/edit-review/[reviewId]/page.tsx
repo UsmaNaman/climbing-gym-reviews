@@ -17,17 +17,25 @@ export default function EditReviewPage({
   if (!gym || !review || review.gym_id !== gymId) notFound()
 
   return (
-    <div className="max-w-2xl">
-      <Link
-        href={`/gyms/${gymId}`}
-        className="text-sm text-blue-600 hover:text-blue-800 mb-6 inline-block"
-      >
-        ← Back to {gym.name}
-      </Link>
+    <>
+      <section className="bg-zinc-950 text-white">
+        <div className="max-w-7xl mx-auto px-4 pt-10 pb-12">
+          <Link
+            href={`/gyms/${gymId}`}
+            className="inline-flex items-center gap-1.5 text-xs font-bold tracking-widest uppercase text-zinc-500 hover:text-orange-400 transition-colors mb-8"
+          >
+            ← {gym.name}
+          </Link>
+          <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight leading-none">
+            Edit Review
+          </h1>
+        </div>
+        <div className="h-1 bg-gradient-to-r from-orange-500 via-amber-400 to-orange-600" />
+      </section>
 
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Edit Review</h1>
-
-      <EditReviewForm review={review} gymId={gymId} />
-    </div>
+      <div className="max-w-7xl mx-auto px-4 py-12 max-w-2xl">
+        <EditReviewForm review={review} gymId={gymId} />
+      </div>
+    </>
   )
 }
