@@ -20,8 +20,17 @@ export default function GymPage({ params }: { params: { id: string } }) {
   return (
     <>
       {/* Gym hero header */}
-      <section className="bg-zinc-950 text-white">
-        <div className="max-w-7xl mx-auto px-4 pt-10 pb-12">
+      <section className="relative bg-zinc-950 text-white overflow-hidden">
+        {/* Background image */}
+        <div className="absolute inset-0">
+          <img
+            src={`https://picsum.photos/seed/gym-${gymId}/1400/500`}
+            alt=""
+            className="w-full h-full object-cover opacity-20"
+          />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 pt-10 pb-12">
           <Link
             href="/"
             className="inline-flex items-center gap-1.5 text-xs font-bold tracking-widest uppercase text-zinc-500 hover:text-orange-400 transition-colors mb-8"
@@ -59,7 +68,8 @@ export default function GymPage({ params }: { params: { id: string } }) {
             )}
           </div>
         </div>
-        <div className={`h-1 ${
+
+        <div className={`relative z-10 h-1 ${
           gym.type === 'bouldering' ? 'bg-gradient-to-r from-orange-500 to-amber-400' :
           gym.type === 'lead' ? 'bg-gradient-to-r from-blue-500 to-blue-400' :
           'bg-gradient-to-r from-emerald-500 to-emerald-400'
@@ -67,7 +77,7 @@ export default function GymPage({ params }: { params: { id: string } }) {
       </section>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 py-12 max-w-3xl">
+      <div className="max-w-3xl mx-auto px-4 py-12">
         <section className="mb-12">
           <h2 className="text-xs font-black tracking-[0.2em] uppercase text-zinc-400 mb-6">
             Reviews

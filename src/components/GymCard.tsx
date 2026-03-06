@@ -7,12 +7,18 @@ export default function GymCard({ gym }: { gym: GymWithStats }) {
   return (
     <Link href={`/gyms/${gym.id}`} className="block group">
       <div className="bg-white border border-stone-200 rounded-lg overflow-hidden hover:border-orange-400 hover:shadow-lg transition-all duration-200 h-full flex flex-col">
-        {/* Top accent bar by type */}
-        <div className={`h-1 w-full ${
-          gym.type === 'bouldering' ? 'bg-orange-400' :
-          gym.type === 'lead' ? 'bg-blue-400' :
-          'bg-emerald-400'
-        }`} />
+        {/* Gym image */}
+        <div className="relative h-40 overflow-hidden bg-zinc-100">
+          <img
+            src={`https://picsum.photos/seed/gym-${gym.id}/600/320`}
+            alt={gym.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+          <div className="absolute bottom-2 left-3">
+            <GymTypeBadge type={gym.type} />
+          </div>
+        </div>
 
         <div className="p-5 flex flex-col flex-1">
           <div className="flex items-start justify-between gap-2 mb-2">
@@ -21,11 +27,7 @@ export default function GymCard({ gym }: { gym: GymWithStats }) {
             </h2>
           </div>
 
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">{gym.area}</span>
-            <span className="text-zinc-200">·</span>
-            <GymTypeBadge type={gym.type} />
-          </div>
+          <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">{gym.area}</p>
 
           <p className="text-xs text-zinc-400 mb-4 line-clamp-1">{gym.address}</p>
 

@@ -36,6 +36,13 @@ export default function NavMenu() {
           >
             <span className="text-orange-400">◈</span> All Gyms
           </Link>
+          <Link
+            href="/map"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-zinc-100 hover:bg-zinc-800 transition-colors"
+          >
+            <span className="text-orange-400">◎</span> Map
+          </Link>
           <div className="border-t border-zinc-800 mx-3" />
           <p className="px-4 pt-3 pb-1 text-[10px] font-bold tracking-widest uppercase text-zinc-500">Filter by type</p>
           <Link
