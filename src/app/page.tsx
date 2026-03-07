@@ -1,4 +1,4 @@
-import { getAllGymsWithStats } from '@/lib/queries'
+import { getAllGyms } from '@/lib/queries'
 import GymCard from '@/components/GymCard'
 import { GymType } from '@/lib/queries'
 
@@ -9,7 +9,7 @@ const TYPE_LABELS: Record<string, string> = {
 }
 
 export default function HomePage({ searchParams }: { searchParams: { type?: string } }) {
-  const allGyms = getAllGymsWithStats()
+  const allGyms = getAllGyms()
   const activeType = searchParams.type as GymType | undefined
 
   const gyms = activeType
@@ -24,7 +24,7 @@ export default function HomePage({ searchParams }: { searchParams: { type?: stri
       <section className="bg-zinc-950 text-white">
         <div className="max-w-7xl mx-auto px-4 py-16 md:py-24">
           <p className="text-orange-400 text-xs font-bold tracking-[0.3em] uppercase mb-4">
-            Your personal guide
+            Your guide to the capital&apos;s walls
           </p>
           <h1 className="text-5xl md:text-7xl font-black uppercase leading-none tracking-tight mb-6">
             Find Your<br />
@@ -32,7 +32,7 @@ export default function HomePage({ searchParams }: { searchParams: { type?: stri
             In London
           </h1>
           <p className="text-zinc-400 text-lg max-w-md">
-            {allGyms.length} climbing gyms rated and reviewed. Bouldering, lead, and everything in between.
+            {allGyms.length} climbing gyms — histories, facilities, and everything you need to know before you go.
           </p>
         </div>
         {/* Bottom edge detail */}

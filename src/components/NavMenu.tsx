@@ -28,7 +28,7 @@ export default function NavMenu() {
       </button>
 
       {open && (
-        <div className="absolute left-0 top-full mt-2 w-52 bg-zinc-900 border border-zinc-700 rounded-lg shadow-2xl z-50 overflow-hidden">
+        <div className="absolute right-0 top-full mt-2 w-52 bg-zinc-900 border border-zinc-700 rounded-lg shadow-2xl z-50 overflow-hidden">
           <Link
             href="/"
             onClick={() => setOpen(false)}

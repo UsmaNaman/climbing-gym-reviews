@@ -8,12 +8,16 @@ let db: Database.Database | null = null
 function initSchema(database: Database.Database) {
   database.exec(`
     CREATE TABLE IF NOT EXISTS gyms (
-      id      INTEGER PRIMARY KEY AUTOINCREMENT,
-      name    TEXT NOT NULL,
-      area    TEXT NOT NULL,
-      address TEXT NOT NULL,
-      type    TEXT NOT NULL CHECK(type IN ('bouldering', 'lead', 'both')),
-      website TEXT
+      id                  INTEGER PRIMARY KEY AUTOINCREMENT,
+      name                TEXT NOT NULL,
+      area                TEXT NOT NULL,
+      address             TEXT NOT NULL,
+      type                TEXT NOT NULL CHECK(type IN ('bouldering', 'lead', 'both')),
+      website             TEXT,
+      history             TEXT,
+      training_facilities TEXT,
+      lat                 REAL,
+      lng                 REAL
     );
 
     CREATE TABLE IF NOT EXISTS reviews (
