@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { getGymById } from '@/lib/queries'
+import { getAllGyms, getGymBySlug } from '@/lib/queries'
 import GymTypeBadge from '@/components/GymTypeBadge'
 
 const TYPE_DETAIL: Record<string, { label: string; desc: string }> = {
@@ -18,33 +18,52 @@ const TYPE_DETAIL: Record<string, { label: string; desc: string }> = {
   },
 }
 
-export default function GymPage({ params }: { params: { id: string } }) {
-  const gymId = Number(params.id)
-  const gym = getGymById(gymId)
+export function generateStaticParams() {
+  return getAllGyms().map((g) => ({ slug: g.slug }))
+}
+
+export function generateMetadata({ params }: { params: { slug: string } }) {
+  const gym = getGymBySlug(params.slug)
+  return gym ? { title: `${gym.name} · London Climbing`, description: gym.about } : {}
+}
+
+export default function GymPage({ params }: { params: { slug: string } }) {
+  const gym = getGymBySlug(params.slug)
 
   if (!gym) notFound()
 
-  const facilities: string[] = gym.training_facilities
-    ? JSON.parse(gym.training_facilities)
-    : []
+  const facilities = gym.facilities
 
   const climbingInfo = TYPE_DETAIL[gym.type]
 
-  const mapSrc = gym.lat && gym.lng
-    ? `https://www.openstreetmap.org/export/embed.html?bbox=${gym.lng - 0.01}%2C${gym.lat - 0.007}%2C${gym.lng + 0.01}%2C${gym.lat + 0.007}&layer=mapnik&marker=${gym.lat}%2C${gym.lng}`
-    : null
+  const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${gym.lng - 0.01}%2C${gym.lat - 0.007}%2C${gym.lng + 0.01}%2C${gym.lat + 0.007}&layer=mapnik&marker=${gym.lat}%2C${gym.lng}`
 
   return (
     <>
       {/* Hero */}
       <section className="relative bg-zinc-950 text-white overflow-hidden">
-        <div className="absolute inset-0">
-          <img
-            src={`https://picsum.photos/seed/gym-${gymId}/1400/500`}
-            alt=""
-            className="w-full h-full object-cover opacity-20"
-          />
-        </div>
+        {gym.photo && (
+          <div className="absolute inset-0">
+            <img
+              src={gym.photo.src}
+              alt={`Inside ${gym.name}`}
+              className="w-full h-full object-cover opacity-50"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/70 to-transparent" />
+          </div>
+        )}
+
+        {gym.photo && (
+          <a
+            href={gym.photo.creditUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute bottom-3 right-4 z-10 text-[10px] text-zinc-400 hover:text-white"
+          >
+            Photo: {gym.photo.credit}
+            {gym.photo.license ? ` · ${gym.photo.license}` : ''}
+          </a>
+        )}
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 pt-10 pb-12">
           <Link
@@ -65,16 +84,14 @@ export default function GymPage({ params }: { params: { id: string } }) {
 
           <p className="text-zinc-500 text-sm mb-6">{gym.address}</p>
 
-          {gym.website && (
-            <a
-              href={gym.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-bold tracking-widest uppercase text-orange-400 hover:text-orange-300 transition-colors"
-            >
-              Website ↗
-            </a>
-          )}
+          <a
+            href={gym.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-bold tracking-widest uppercase text-orange-400 hover:text-orange-300 transition-colors"
+          >
+            Website ↗
+          </a>
         </div>
 
         <div className={`relative z-10 h-1 ${
@@ -87,13 +104,11 @@ export default function GymPage({ params }: { params: { id: string } }) {
       {/* Content */}
       <div className="max-w-3xl mx-auto px-4 py-12 space-y-14">
 
-        {/* History */}
-        {gym.history && (
-          <section>
-            <h2 className="text-xs font-black tracking-[0.2em] uppercase text-zinc-400 mb-5">History</h2>
-            <p className="text-zinc-700 leading-relaxed text-[15px]">{gym.history}</p>
-          </section>
-        )}
+        {/* About */}
+        <section>
+          <h2 className="text-xs font-black tracking-[0.2em] uppercase text-zinc-400 mb-5">About</h2>
+          <p className="text-zinc-700 leading-relaxed text-[15px]">{gym.about}</p>
+        </section>
 
         {/* Climbing Types */}
         <section>
@@ -110,7 +125,7 @@ export default function GymPage({ params }: { params: { id: string } }) {
         {/* Training Facilities */}
         {facilities.length > 0 && (
           <section>
-            <h2 className="text-xs font-black tracking-[0.2em] uppercase text-zinc-400 mb-5">Training Facilities</h2>
+            <h2 className="text-xs font-black tracking-[0.2em] uppercase text-zinc-400 mb-5">Facilities</h2>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {facilities.map((f, i) => (
                 <li key={i} className="flex items-start gap-2.5 text-sm text-zinc-700">
@@ -123,8 +138,7 @@ export default function GymPage({ params }: { params: { id: string } }) {
         )}
 
         {/* Map */}
-        {mapSrc && (
-          <section>
+        <section>
             <h2 className="text-xs font-black tracking-[0.2em] uppercase text-zinc-400 mb-5">Location</h2>
             <div className="rounded-xl overflow-hidden border border-stone-200 shadow-sm">
               <iframe
@@ -137,8 +151,31 @@ export default function GymPage({ params }: { params: { id: string } }) {
               />
             </div>
             <p className="text-xs text-zinc-400 mt-2">{gym.address}</p>
-          </section>
-        )}
+        </section>
+
+        {/* Sources */}
+        <section>
+          <h2 className="text-xs font-black tracking-[0.2em] uppercase text-zinc-400 mb-3">Sources</h2>
+          <ul className="space-y-1">
+            {gym.sources.map((src) => (
+              <li key={src}>
+                <a href={src} target="_blank" rel="noopener noreferrer" className="text-xs text-zinc-500 hover:text-orange-500 break-all">
+                  {new URL(src).hostname.replace(/^www\./, '')}
+                </a>
+              </li>
+            ))}
+          </ul>
+          {gym.photo && (
+            <p className="text-xs text-zinc-500 mt-3">
+              Photo:{' '}
+              <a href={gym.photo.creditUrl} target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 underline">
+                {gym.photo.credit}
+              </a>
+              {gym.photo.license ? `, ${gym.photo.license} via Wikimedia Commons` : ', from the gym’s website'}
+            </p>
+          )}
+          <p className="text-xs text-zinc-400 mt-3">Details change. Check the gym&apos;s own website before you go.</p>
+        </section>
       </div>
     </>
   )

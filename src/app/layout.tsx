@@ -5,7 +5,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'London Climbing Gyms',
-  description: 'Rate and review climbing gyms in London',
+  description: 'A guide to London climbing gyms: walls, training facilities and where to find them',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

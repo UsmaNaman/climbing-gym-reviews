@@ -1,27 +1,11 @@
-import { getDb } from './db'
+import { gyms, type Gym, type GymType } from '@/data/gyms'
 
-export type GymType = 'bouldering' | 'lead' | 'both'
-
-export interface Gym {
-  id: number
-  name: string
-  area: string
-  address: string
-  type: GymType
-  website: string | null
-  history: string | null
-  training_facilities: string | null
-  lat: number | null
-  lng: number | null
-}
+export type { Gym, GymType }
 
 export function getAllGyms(): Gym[] {
-  const db = getDb()
-  return db.prepare('SELECT * FROM gyms ORDER BY name').all() as Gym[]
+  return [...gyms].sort((a, b) => a.name.localeCompare(b.name))
 }
 
-export function getGymById(id: number): Gym | null {
-  const db = getDb()
-  return db.prepare('SELECT * FROM gyms WHERE id = ?').get(id) as Gym | null
+export function getGymBySlug(slug: string): Gym | undefined {
+  return gyms.find((g) => g.slug === slug)
 }
-

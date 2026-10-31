@@ -1,10 +1,10 @@
 import dynamic from 'next/dynamic'
-import { getAllGymsWithStats } from '@/lib/queries'
+import { getAllGyms } from '@/lib/queries'
 
 const GymMap = dynamic(() => import('@/components/GymMap'), { ssr: false })
 
 export default function MapPage() {
-  const gyms = getAllGymsWithStats()
+  const gyms = getAllGyms()
 
   return (
     <>
@@ -29,9 +29,6 @@ export default function MapPage() {
           <span className="text-[10px] font-black tracking-widest uppercase text-zinc-500">Key</span>
           <span className="flex items-center gap-2 text-xs text-zinc-400">
             <span className="w-3 h-3 rounded-full bg-orange-400 inline-block border border-white/20" /> Bouldering
-          </span>
-          <span className="flex items-center gap-2 text-xs text-zinc-400">
-            <span className="w-3 h-3 rounded-full bg-blue-400 inline-block border border-white/20" /> Lead
           </span>
           <span className="flex items-center gap-2 text-xs text-zinc-400">
             <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block border border-white/20" /> Bouldering + Lead

@@ -53,13 +53,6 @@ export default function NavMenu() {
             <span className="w-2 h-2 rounded-full bg-orange-400 shrink-0" /> Bouldering
           </Link>
           <Link
-            href="/?type=lead"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-3 px-4 py-2.5 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
-          >
-            <span className="w-2 h-2 rounded-full bg-blue-400 shrink-0" /> Lead Climbing
-          </Link>
-          <Link
             href="/?type=both"
             onClick={() => setOpen(false)}
             className="flex items-center gap-3 px-4 pb-3 pt-2.5 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"

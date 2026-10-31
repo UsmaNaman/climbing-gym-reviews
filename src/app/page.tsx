@@ -32,7 +32,7 @@ export default function HomePage({ searchParams }: { searchParams: { type?: stri
             In London
           </h1>
           <p className="text-zinc-400 text-lg max-w-md">
-            {allGyms.length} climbing gyms — histories, facilities, and everything you need to know before you go.
+            {allGyms.length} climbing gyms: what&apos;s on the walls, where to find them, and sources for every fact.
           </p>
         </div>
         {/* Bottom edge detail */}
@@ -54,7 +54,7 @@ export default function HomePage({ searchParams }: { searchParams: { type?: stri
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {gyms.map((gym) => (
-            <GymCard key={gym.id} gym={gym} />
+            <GymCard key={gym.slug} gym={gym} />
           ))}
         </div>
       </section>
